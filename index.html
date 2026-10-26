@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NewsCore — News Management Website</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#" aria-label="Pulse News home">
+        <span class="logo">C</span>
+        <span class="brand-text">Core<b>News</b></span>
+      </a>
+      <div class="live"><span class="dot"></span> LIVE · <span id="today"></span></div>
+      <button class="btn glow" id="btn-new">＋ New article</button>
+    </div>
+  </header>
+
+  <div class="ticker" aria-label="Headlines">
+    <span class="ticker-tag">BREAKING NEWS</span>
+    <div class="ticker-track"><div class="ticker-move" id="ticker"></div></div>
+  </div>
+
+  <main class="wrap">
+    <div id="offline" class="offline" hidden></div>
+
+    <section id="hero"></section>
+
+    <section class="toolbar">
+      <div class="pills" id="pills"></div>
+      <div class="search">
+        <span>🔍</span>
+        <input id="search" type="search" placeholder="Search news…" autocomplete="off" />
+      </div>
+    </section>
+
+    <div class="section-title"><h2>Latest stories</h2><span id="count"></span></div>
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">NewsCore · News Management Website · Add, edit, delete and display news articles</div>
+  </footer>
+
+  <!-- Reader -->
+  <div class="overlay" id="reader-overlay" hidden>
+    <article class="modal reader" id="reader" role="dialog" aria-modal="true"></article>
+  </div>
+
+  <!-- Add / Edit form -->
+  <div class="overlay" id="form-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="form-title">
+      <button class="close" id="form-close" aria-label="Close">✕</button>
+      <h2 id="form-title">New article</h2>
+      <form id="news-form" novalidate>
+        <input type="hidden" id="f-id" />
+        <p class="req-note"><span class="req">*</span> All fields are required to publish a new article.</p>
+        <label>Headline <span class="req">*</span>
+          <input id="f-title" maxlength="200" placeholder="Write a strong headline (min. 10 characters)" />
+          <span class="field-error" data-for="f-title"></span>
+        </label>
+        <div class="row">
+          <label>Author <span class="req">*</span>
+            <input id="f-author" placeholder="Your name" />
+            <span class="field-error" data-for="f-author"></span>
+          </label>
+          <label>Category <span class="req">*</span>
+            <select id="f-category">
+              <option value="" selected disabled>Select a category</option>
+              <option>World</option><option>Politics</option><option>Business</option>
+              <option>Technology</option><option>Sports</option><option>Health</option>
+              <option>Entertainment</option><option>General</option>
+            </select>
+            <span class="field-error" data-for="f-category"></span>
+          </label>
+        </div>
+        <label>Story <span class="req">*</span>
+          <textarea id="f-content" rows="6" placeholder="Write the article… (min. 50 characters, blank line = new paragraph)"></textarea>
+          <span class="field-error" data-for="f-content"></span>
+        </label>
+        <div class="row">
+          <label>Source name <span class="req">*</span>
+            <input id="f-source" placeholder="e.g. BBC News" />
+            <span class="field-error" data-for="f-source"></span>
+          </label>
+          <label>Source link <span class="req">*</span>
+            <input id="f-sourceUrl" placeholder="https://…" />
+            <span class="field-error" data-for="f-sourceUrl"></span>
+          </label>
+        </div>
+        <label>Image link <span class="req">*</span>
+          <input id="f-imageUrl" placeholder="https://…/photo.jpg" />
+          <span class="field-error" data-for="f-imageUrl"></span>
+        </label>
+        <p class="error" id="form-error" hidden></p>
+        <div class="actions">
+          <button type="submit" class="btn glow" id="f-submit">Publish</button>
+          <button type="button" class="btn ghost" id="f-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="src/news-fallback.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
